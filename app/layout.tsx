@@ -17,6 +17,11 @@ export const metadata = {
     "Belle Aesthetics & Wellness is a premier wellness spa in Lindenhurst, NY offering hydro facials, microneedling, chemical peels, Botox & fillers.",
   keywords:
     "wellness spa, hydro facials, microneedling, chemical peels, Botox, fillers, Lindenhurst, NY",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     title: "Belle Aesthetics & Wellness – Beauty Spa in Lindenhurst, NY",
     description:
