@@ -1,25 +1,32 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ArrowDown } from "lucide-react";
 
 export default function Header() {
+  // Reduced from 7 to 4 logos for better performance
   const logos = [
-    { size: 70, left: "8%", delay: 0, duration: 25, opacity: 0.15 },
-    { size: 90, left: "18%", delay: 3, duration: 28, opacity: 0.12 },
-    { size: 55, left: "32%", delay: 1.5, duration: 22, opacity: 0.1 },
-    { size: 80, left: "48%", delay: 4, duration: 30, opacity: 0.15 },
-    { size: 65, left: "65%", delay: 2, duration: 26, opacity: 0.12 },
-    { size: 85, left: "78%", delay: 5, duration: 27, opacity: 0.1 },
-    { size: 75, left: "88%", delay: 1, duration: 24, opacity: 0.15 },
+    { size: 70, left: "15%", delay: 0, duration: 25, opacity: 0.15 },
+    { size: 85, left: "40%", delay: 2, duration: 28, opacity: 0.12 },
+    { size: 75, left: "65%", delay: 4, duration: 26, opacity: 0.1 },
+    { size: 80, left: "85%", delay: 1, duration: 24, opacity: 0.15 },
   ];
 
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -53,14 +60,14 @@ export default function Header() {
         {logos.map((logo, index) => (
           <motion.div
             key={index}
-            className="absolute"
+            className="absolute will-change-transform"
             style={{ left: logo.left, bottom: "-150px" }}
             initial={{ y: 0, opacity: 0 }}
             animate={{
               y: ["0%", "-150vh"],
-              rotate: [0, 20, -20, 10, -10, 0],
-              opacity: [0, logo.opacity, logo.opacity * 1.2, logo.opacity, 0],
-              scale: [0.9, 1, 1.1, 1, 0.9],
+              rotate: [0, 15, -15, 0],
+              opacity: [0, logo.opacity, logo.opacity, 0],
+              scale: [0.95, 1, 0.95],
             }}
             transition={{
               duration: logo.duration,
@@ -76,6 +83,8 @@ export default function Header() {
               width={logo.size}
               height={logo.size}
               className="opacity-60 blur-[0.5px]"
+              loading="lazy"
+              priority={false}
             />
           </motion.div>
         ))}

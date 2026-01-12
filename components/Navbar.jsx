@@ -8,8 +8,17 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 30);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -52,6 +61,7 @@ export default function Navbar() {
               width={48}
               height={48}
               className="relative rounded-full object-cover shadow-lg ring-2 ring-white/50 group-hover:ring-[#d8a7aa]/50 transition-all duration-300 group-hover:scale-105"
+              priority
             />
           </div>
           <h1 className="font-[Playfair_Display] text-2xl md:text-3xl bg-gradient-to-r from-[#a6826c] to-[#8b6f5d] bg-clip-text text-transparent tracking-wide font-semibold">

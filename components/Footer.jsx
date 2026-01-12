@@ -34,6 +34,7 @@ export default function Footer() {
                 width={40}
                 height={40}
                 className="rounded-full object-cover ring-2 ring-white/30"
+                loading="lazy"
               />
               <h3 className="font-[Playfair_Display] text-2xl font-semibold">
                 Belle

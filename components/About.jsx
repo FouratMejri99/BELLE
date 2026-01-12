@@ -96,6 +96,7 @@ export default function About() {
                 width={600}
                 height={400}
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
               />
               {/* Decorative border */}
               <div className="absolute inset-0 rounded-3xl border-2 border-white/50 pointer-events-none" />
